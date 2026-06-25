@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CosmoCare - Sistema de Gestión de Citas Inteligente</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+
+<body class="light-theme">
+
+    <div id="toast" class="toast hidden"></div>
+
+    <div id="modal-correo" class="modal hidden">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h3> Enviado con Éxito 📧</h3>
+                <button onclick="cerrarModalCorreo()">&times;</button>
+            </div>
+            <div id="correo-cuerpo" class="modal-body">
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <span class="material-symbols-outlined">spa</span>
+            <h1>CosmoCare</h1>
+        </div>
+        <nav>
+            <button onclick="mostrarSeccion('landing')">Inicio</button>
+            <button onclick="mostrarSeccion('reserva')">Reservar Cita</button>
+            <button onclick="mostrarSeccion('dashboard')">Panel Admin</button>
+            <button id="btn-theme" onclick="alternarTema()">
+                <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="sec-landing" class="seccion-app">
+            <div class="hero">
+                <h2>Tu belleza y bienestar en manos de expertas</h2>
+                <p>Descubre nuestros tratamientos faciales y corporales personalizados de alta gama.</p>
+                <button class="btn-principal" onclick="mostrarSeccion('reserva')">Agendar una Cita Ahora</button>
+            </div>
+
+            <div class="seccion-info-landing">
+                <div class="info-bloque">
+                    <h3>¿Quiénes Somos?</h3>
+                    <p>En <strong>CosmoCare</strong> fusionamos la ciencia dermatológica avanzada con la armonía del spa
+                        tradicional. Nuestro propósito es realzar tu belleza natural mediante diagnósticos
+                        personalizados y aparatología de última generación.</p>
+                </div>
+                <div class="info-bloque">
+                    <h3>Horarios de Atención</h3>
+                    <p>🕒 <strong>Lunes a Sábado:</strong> 08:00 AM - 06:00 PM</p>
+                    <p>🔒 <strong>Domingos y Festivos:</strong> Cerrado</p>
+                </div>
+            </div>
+
+            <div class="servicios-container">
+                <h3>Nuestros Servicios Especializados</h3>
+                <div class="grid-servicios">
+                    <div class="tarjeta-servicio">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=400" alt="Facial">
+                        <h4>Limpieza Facial Profunda</h4>
+                        <p>Renovación e hidratación completa para una piel radiante.</p>
+                        <span class="precio">$45.000</span>
+                    </div>
+                    <div class="tarjeta-servicio">
+                        <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=400"
+                            alt="Corporal">
+                        <h4>Tratamiento Reductor</h4>
+                        <p>Moldea tu figura con la tecnología estética más avanzada.</p>
+                        <span class="precio">$80.000</span>
+                    </div>
+                    <div class="tarjeta-servicio">
+                        <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=400" alt="Masaje">
+                        <h4>Masaje Relajante & Spa</h4>
+                        <p>Libera el estrés acumulado y equilibra tu mente y cuerpo.</p>
+                        <span class="precio">$60.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonios-container">
+                <h3>Lo que dicen nuestras clientas</h3>
+                <div class="grid-testimonios">
+                    <div class="tarjeta-testimonio">
+                        <p>"La atención en CosmoCare es espectacular. Mi piel cambió completamente desde la primera
+                            sesión de limpieza facial."</p>
+                        <h5>- Camila Barrientos</h5>
+                    </div>
+                    <div class="tarjeta-testimonio">
+                        <p>"El sistema de reserva web es súper intuitivo y el ambiente del spa transmite una paz
+                            increíble. Totalmente recomendadas."</p>
+                        <h5>- Valentina Mendoza</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-reserva" class="seccion-app hidden">
+            <div class="contenedor-formulario">
+                <h2>Agendar Nueva Cita</h2>
+                <p class="subtitulo">Completa los datos para reservar tu espacio de estética.</p>
+
+                <form id="form-cita" novalidate>
+                    <input type="hidden" id="cita-id">
+
+                    <div class="grupo-input">
+                        <label for="nombre">Nombre Completo *</label>
+                        <input type="text" id="nombre" placeholder="Ej. Mariana Gómez">
+                    </div>
+
+                    <div class="grupo-doble">
+                        <div class="grupo-input">
+                            <label for="telefono">Teléfono *</label>
+                            <input type="tel" id="telefono" placeholder="Ej. 3001234567">
+                        </div>
+                        <div class="grupo-input">
+                            <label for="correo">Correo Electrónico *</label>
+                            <input type="email" id="correo" placeholder="Ej. mariana@correo.com">
+                        </div>
+                    </div>
+
+                    <div class="grupo-doble">
+                        <div class="grupo-input">
+                            <label for="fecha">Fecha *</label>
+                            <input type="date" id="fecha">
+                        </div>
+                        <div class="grupo-input">
+                            <label for="hora">Hora *</label>
+                            <input type="time" id="hora">
+                        </div>
+                    </div>
+
+                    <div class="grupo-doble">
+                        <div class="grupo-input">
+                            <label for="servicio">Tipo de Servicio *</label>
+                            <select id="servicio">
+                                <option value="">Selecciona un servicio</option>
+                                <option value="Facial">Limpieza Facial Profunda</option>
+                                <option value="Corporal">Tratamiento Reductor</option>
+                                <option value="Masaje">Masaje Relajante & Spa</option>
+                            </select>
+                        </div>
+                        <div class="grupo-input">
+                            <label for="estado">Estado Inicial *</label>
+                            <select id="estado">
+                                <option value="Pendiente" selected>Pendiente</option>
+                                <option value="Confirmada">Confirmada</option>
+                                <option value="Cancelada">Cancelada</option>
+                                <option value="Finalizada">Finalizada</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grupo-input">
+                        <label for="observaciones">Observaciones (Máx 200 caracteres)</label>
+                        <textarea id="observaciones" rows="3" placeholder="Alergias, preferencias..."></textarea>
+                        <div id="char-count" class="char-count">0 / 200</div>
+                    </div>
+
+                    <div class="acciones-form">
+                        <button type="submit" id="btn-guardar" class="btn-guardar">Confirmar Reserva</button>
+                        <button type="button" onclick="limpiarFormulario()" class="btn-limpiar">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="sec-dashboard" class="seccion-app hidden">
+            <div class="dashboard-header-flex">
+                <div class="saludo-admin" id="saludo-admin"></div>
+                <button class="btn-extra-excel" onclick="exportarExcelCSV()">
+                    <span class="material-symbols-outlined">download</span> Exportar a Excel (CSV)
+                </button>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>Total Citas</h3>
+                    <p id="ind-total">0</p>
+                </div>
+                <div class="card pendiente">
+                    <h3>Pendientes</h3>
+                    <p id="ind-pendiente">0</p>
+                </div>
+                <div class="card confirmada">
+                    <h3>Confirmadas</h3>
+                    <p id="ind-confirmada">0</p>
+                </div>
+                <div class="card cancelada">
+                    <h3>Canceladas</h3>
+                    <p id="ind-cancelada">0</p>
+                </div>
+                <div class="card finalizada">
+                    <h3>Finalizadas</h3>
+                    <p id="ind-finalizada">0</p>
+                </div>
+                <div class="card hoy">
+                    <h3>Citas de Hoy</h3>
+                    <p id="ind-hoy">0</p>
+                </div>
+            </div>
+
+            <div class="filtros-container">
+                <div class="buscador">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" id="buscar" placeholder="Buscar por nombre, correo o teléfono..."
+                        oninput="filtrarYMostrarCitas()">
+                </div>
+                <div class="selectores-filtro"><button type="button" class="btn-accion btn-edit"
+                        onclick="filtrarCitasDeHoy()"
+                        style="background-color: var(--rosa-oscuro); color: white; border-radius: 20px; padding: 0.5rem 1rem;">
+                        📅 Ver Citas de Hoy
+                    </button>
+                    <select id="filtro-estado" onchange="filtrarYMostrarCitas()">
+                        <option value="Todos">Todos los Estados</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Confirmada">Confirmada</option>
+                        <option value="Cancelada">Cancelada</option>
+                        <option value="Finalizada">Finalizada</option>
+                    </select>
+                    <select id="filtro-servicio" onchange="filtrarYMostrarCitas()">
+                        <option value="Todos">Todos los Servicios</option>
+                        <option value="Facial">Facial</option>
+                        <option value="Corporal">Corporal</option>
+                        <option value="Masaje">Masaje</option>
+                    </select>
+                    <input type="date" id="filtro-fecha" onchange="filtrarYMostrarCitas()">
+                    <button class="btn-limpiar" onclick="limpiarFiltros()">Reset Filtros</button>
+                </div>
+                <div class="ordenamiento">
+                    <label>Ordenar por:</label>
+                    <button onclick="ordenarCitas('fecha')">Fecha</button>
+                    <button onclick="ordenarCitas('nombre')">Nombre</button>
+                </div>
+            </div>
+
+            <div class="progreso-container">
+                <label>Progreso de Ocupación Diaria:</label>
+                <div class="barra-progreso">
+                    <div id="progreso-dia" class="progreso-llenado" style="width: 0%;">0%</div>
+                </div>
+            </div>
+
+            <div class="tabla-responsiva">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Contacto</th>
+                            <th>Fecha y Hora</th>
+                            <th>Servicio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-citas"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 CosmoCare Estética. Panel de Control Avanzado.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
