@@ -58,11 +58,15 @@ formulario.addEventListener('submit', (e) => {
         mostrarNotificacion('El nombre debe tener mínimo 3 caracteres y solo letras.', 'error');
         return;
     }
-    if (!/^[0-9]+$u/.test(telefono)) { // Expresión corregida y simplificada para evitar fallos
-        if (isNaN(telefono)) {
-            mostrarNotificacion('El teléfono debe contener únicamente números.', 'error');
-            return;
-        }
+    const regexNumeros = /^[0-9]+$/;
+    if (!regexNumeros.test(telefono)) {
+        mostrarNotificacion('El teléfono debe contener únicamente números.', 'error');
+        return;
+    }
+
+    if (telefono.length !== 10) {
+        mostrarNotificacion('El teléfono debe tener exactamente 10 dígitos (ni más, ni menos).', 'error');
+        return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
         mostrarNotificacion('Formato de correo electrónico inválido.', 'error');
@@ -101,7 +105,7 @@ formulario.addEventListener('submit', (e) => {
         citas.push(citaProcesada);
         mostrarNotificacion('Cita registrada correctamente.');
 
-// SIMULACIÓN DE ENVÍO DE CORREO AUTOMÁTICO ---
+        // SIMULACIÓN DE ENVÍO DE CORREO AUTOMÁTICO ---
         dispararSimulacionCorreo(citaProcesada);
     }
 
@@ -261,14 +265,11 @@ function filtrarCitasDeHoy() {
     const hoy = new Date().toISOString().split('T')[0];
     // Colocamos de forma automática la fecha de hoy en el input del filtro
     document.getElementById('filtro-fecha').value = hoy;
-    // Ejecutamos la función de filtrado que ya tienes hecha
     filtrarYMostrarCitas();
     mostrarNotificacion('Mostrando la agenda del día de hoy.');
 }
+// EXPORTAR CITAS A EXCEL (CSV)
 
-// ==========================================
-// DESAFÍO EXTRA: EXPORTAR CITAS A EXCEL (CSV)
-// ==========================================
 function exportarExcelCSV() {
     if (citas.length === 0) {
         mostrarNotificacion('No hay registros de citas para exportar.', 'error');
